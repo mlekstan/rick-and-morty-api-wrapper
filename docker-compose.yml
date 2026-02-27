@@ -1,0 +1,10 @@
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rick-and-morty-api
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
