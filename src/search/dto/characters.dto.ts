@@ -1,13 +1,14 @@
 import { Info } from "../interfaces/info.interface"
+import { Resource } from "../interfaces/resource.interface"
+import { Result } from "../interfaces/results.interface"
 
-export class CharactersDto {
+export class CharactersDto implements Resource {
   info: Info
   results: Character[]
 }
 
-export interface Character {
+export interface Character extends Result {
   id: number
-  name: string
   status: string
   species: string
   type: string
@@ -16,7 +17,6 @@ export interface Character {
   location: Location
   image: string
   episode: string[]
-  url: string
   created: string
 }
 

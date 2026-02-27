@@ -1,16 +1,16 @@
 import { Info } from "../interfaces/info.interface"
+import { Resource } from "../interfaces/resource.interface"
+import { Result } from "../interfaces/results.interface"
 
-export class LocationsDto {
+export class LocationsDto implements Resource {
   info: Info
   results: Location[]
 }
 
-export interface Location {
+export interface Location extends Result {
   id: number
-  name: string
   type: string
   dimension: string
   residents: string[]
-  url: string
   created: string
 }

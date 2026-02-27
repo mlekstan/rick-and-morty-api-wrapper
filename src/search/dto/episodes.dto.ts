@@ -1,16 +1,16 @@
 import { Info } from "../interfaces/info.interface"
+import { Resource } from "../interfaces/resource.interface"
+import { Result } from "../interfaces/results.interface"
 
-export interface EpisodesDto {
+export class EpisodesDto implements Resource {
   info: Info
   results: Episode[]
 }
 
-export interface Episode {
+export interface Episode extends Result {
   id: number
-  name: string
   air_date: string
   episode: string
   characters: string[]
-  url: string
   created: string
 }

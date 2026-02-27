@@ -6,7 +6,7 @@ export class SearchController {
   constructor (private searchService: SearchService) {}
 
   @Get()
-  findAll(@Query("term") term: string, @Query("limit", ParseIntPipe) limit: number) {
-    return this.searchService.findAll(term, limit);  
+  findAll(@Query("term") term: string, @Query("limit", new ParseIntPipe({ optional: true })) limit?: number) {
+    return this.searchService.findAll(term, limit);
   }
 }
