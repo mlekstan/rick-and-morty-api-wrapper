@@ -11,6 +11,7 @@ export class TopPairsController {
     @Query("max", new ParseIntPipe({ optional: true })) max?: number, 
     @Query("limit", new ParseIntPipe({ optional: true })) limit?: number
   ) {
-    return this.topPairsService.findAll(min, max, limit);
+    // return this.topPairsService.findAllFirstApproach(min, max, limit);
+    return this.topPairsService.findAllSecondApproach(min, max, limit); 
   }
 }

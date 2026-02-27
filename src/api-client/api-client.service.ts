@@ -3,7 +3,7 @@ import { ApiClientConfig } from './api-client-config.class';
 
 type MakeRequestOptions = {
   method: "GET" | "HEAD" | "PUT" | "POST" | "DELETE" | "OPTIONS" | "TRACE" | "CONNECT" | "PATCH",
-  headers: HeadersInit,
+  headers?: HeadersInit,
   body?: any,
   searchParams?: string[][] | Record<string, string> | string | URLSearchParams,
 }
@@ -37,7 +37,7 @@ export class ApiClientService {
 
     const response = await fetch(fullURL, {
       method, 
-      headers, 
+      headers: headers ?? {}, 
       body: JSON.stringify(body)
     });
 
@@ -45,6 +45,7 @@ export class ApiClientService {
 
     if (!response.ok) {
       const { message = "" } = result ?? {};
+      console.log("Response:", message, response.status);
       throw new HttpException(message, response.status);
     }
 
