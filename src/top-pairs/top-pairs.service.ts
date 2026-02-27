@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ApiClientService } from 'src/api-client/api-client.service';
-import { CharactersDto } from 'src/search/dto/characters.dto';
+import { Character, CharactersDto } from 'src/search/dto/characters.dto';
 import { PairDto } from './dto/pair.dto';
 import { EpisodesDto } from 'src/search/dto/episodes.dto';
 
@@ -9,6 +9,7 @@ const wait = (time: number) => new Promise((resolve) => setTimeout(resolve, time
 @Injectable()
 export class TopPairsService {
   constructor(private apiClient: ApiClientService) {}
+
 
   async findAllFirstApproach(min?: number, max?: number, limit?: number) {
 
@@ -26,11 +27,14 @@ export class TopPairsService {
       str += `,${i}`;
     }
 
-    const otherResults = await this.apiClient.makeRequest<CharactersDto["results"]>(`/api/character/${str}`, {
+    const otherResults = await this.apiClient.makeRequest<CharactersDto["results"] | Character>(`/api/character/${str}`, {
       method: "GET", 
     });
 
-    const accuResults = [...partialResults, ...otherResults];
+    const accuResults = [
+      ...partialResults, 
+      ...(Array.isArray(otherResults) ? otherResults : [otherResults])
+    ];
 
     for (let i = 0; i < accuResults.length - 1; i++) {
       const name1 = accuResults[i].name;
@@ -69,6 +73,7 @@ export class TopPairsService {
     
     return (pairs.sort((p1, p2) => p2.episodes - p1.episodes).slice(0, limit ?? 20));
   }
+
 
   async findAllSecondApproach(min?: number, max?: number, limit?: number): Promise<PairDto[]> {
     
@@ -148,5 +153,3 @@ export class TopPairsService {
     }); 
   }
 }
-
-

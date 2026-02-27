@@ -41,12 +41,17 @@ export class ApiClientService {
       body: JSON.stringify(body)
     });
 
-    const result = await response.json();
+    const contentType = response.headers.get("Content-Type");
 
+    if (!contentType || !contentType.includes("application/json")) {
+      throw new HttpException(await response.text(), response.status);
+    }
+
+    const result = await response.json();
+    
     if (!response.ok) {
       const { message = "" } = result ?? {};
-      console.log("Response:", message, response.status);
-      throw new HttpException(message, response.status);
+      throw new HttpException(`${response.statusText}. ${message}`, response.status);
     }
 
     return result;
